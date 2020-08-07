@@ -58,7 +58,7 @@ HTTP
 touch( $cfg['PID_app_file'] );
 
 
-$handle = popen("tail -f /var/log/suricata/eve.json 2>&1", 'r');
+$handle = popen("tail -f /var/log/nsm/eve.json 2>&1", 'r');
 // $handle = popen("tail -n 200 /var/log/suricata/eve.json 2>&1", 'r');
 while(!feof($handle)) {
     #Rule to block, from cache with 3 minutes to refresh
@@ -128,7 +128,7 @@ unlink( $cfg['PID_app_file'] );
 
 /**
  * [get_cache_rules_to_block get rules to block from cache and refresh it every 2 minutes]
- * @return [type] [description]
+ * @return mixed [type] [description]
  */
 function get_cache_rules_to_block(){
     global $CACHE;

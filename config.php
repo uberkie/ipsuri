@@ -1,19 +1,19 @@
 <?php
 /*****************************
  *
-  *
+ *
  * This file is the webgui for update and manager rules of project:
  *
  * https://github.com/elmaxid/Suricata2MikroTik *
- * 
+ *
  * Author: Maximiliano Dobladez info@mkesolutions.net
  *
- * http://maxid.com.ar | http://www.mkesolutions.net  
+ * http://maxid.com.ar | http://www.mkesolutions.net
  *
  *
  * LICENSE: GPLv2 GNU GENERAL PUBLIC LICENSE
  *
- * 
+ *
  * v1.0 -   initial version
  ******************************/
 
@@ -22,12 +22,12 @@ define('VERSION', '1.1');
 # Reload Rules suricata
 #kill -USR2 $(pidof suricata)
 #
- 
+
 
 // header( 'Content-Type: text/plain' );
-$cfg['db_user_name']    = "root";
+$cfg['db_user_name']    = "aj";
 /* Database username */
-$cfg['db_password']     = "p4c0tilla";
+$cfg['db_password']     = "840Bi@481";
 /* Database password */
 $cfg['db_database']     = "suricata2ips";
 $cfg['db_server']       = "localhost";
@@ -50,20 +50,20 @@ $cfg[ 'whitelist' ] = array(
     '192.168.0.0/16',
     '172.16.0.0/16',
     '0.0.0.0' #bugfix
-    ); 
+);
 
-# Time in minutes to restart API connection 
-# Tiempo para reiniciar la conexión API 
+# Time in minutes to restart API connection
+# Tiempo para reiniciar la conexión API
 
-$router['restart_conn_time'] = 5; 
+$router['restart_conn_time'] = 5;
 
-// $router['conn']="API"; //API o SSH
-// $router['ip']="10.200.200.1"; //IP Router
+ $router['conn']="API"; //API o SSH
+$router['ip']="10.77.44.1"; //IP Router
 
-$router['conn'] = "SSH"; //API o SSH
-$router['ip']   = "192.168.10.1"; //IP Router
-$router['user'] = "api"; // user login
-$router['pass'] = "api123";  //pass
-$router['port'] = "22";  //port ssh
+//$router['conn'] = "SSH"; //API o SSH
+//$router['ip']   = "172.16.28.200"; //IP Router
+$router['user'] = "Support"; // user login
+$router['pass'] = "Stiaan123";  //pass
+$router['port'] = "8729";  //port ssh
 
 $router['address_list_block'] = "Blocked";  //Address list to add blocked IP

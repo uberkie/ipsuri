@@ -20,7 +20,7 @@ function is_cli()
 
 /**
  * [get_now get the date now]
- * @return [type] [description]
+ * @return false|string [type] [description]
  */
 
 function get_now()
@@ -30,9 +30,9 @@ function get_now()
 
 /**
  * [minutos_transcurridos indica la cantidad de minutos que sucedieron desde una fecha a otra]
- * @param  [type] $fecha_i [description]
- * @param  [type] $fecha_f [description]
- * @return [type]          [description]
+ * @param $fecha_i
+ * @param $fecha_f
+ * @return false|float [type]          [description]
  */
 
 function minutos_transcurridos($fecha_i, $fecha_f)
@@ -55,15 +55,15 @@ function _log($text)
 
 /**
  * [get_json_db get ]
- * @param  [type] $que_id [description]
- * @return [type]         [description]
+ * @param null $que_id
+ * @return false [type]         [description]
  */
 
 function get_block_queue_db($que_id = NULL)
     {
     if (!$que_id) return false;
     global $connect;
-    $SQL = "SELECT * FROM block_queue  WHERE `que_id` = '$que_id' LIMIT 1;";
+    $SQL = "SELECT * FROM suricata2ips.block_queue  WHERE `que_id` = '$que_id' LIMIT 1;";
     if (!$result = $connect->query($SQL))
         {
         die('There was an error running the query [' . $connect->error . ']');
@@ -143,9 +143,9 @@ function mysql_con()
 
 /**
  * [array_search_partial busca un string en un valor de un array y devuelve el key]
- * @param  [type] $arr     [description]
- * @param  [type] $keyword [description]
- * @return [type]          [description]
+ * @param $arr
+ * @param $keyword
+ * @return int|string [type]          [description]
  */
 
 function array_search_partial($arr, $keyword)
@@ -158,9 +158,9 @@ function array_search_partial($arr, $keyword)
 
 /**
  * [partial_search_array Busca si existe parte de un string en un array]
- * @param  [type] $haystack [description]
- * @param  [type] $needle   [description]
- * @return [type]           [description]
+ * @param $haystack
+ * @param $needle
+ * @return bool [type]           [description]
  */
 
 function partial_search_array($haystack, $needle)
@@ -177,10 +177,10 @@ function partial_search_array($haystack, $needle)
 
 /**
  * [array_search_multiarray_strpos busca en un array por un key y devuelve si encuentra el string ]
- * @param  [type] $array            [description]
- * @param  [type] $field            [description]
- * @param  [type] $string_to_search [description]
- * @return [type]                   [description]
+ * @param $array
+ * @param $field
+ * @param $string_to_search
+ * @return false|mixed [type]                   [description]
  */
 
 function array_search_multiarray_strpos($array, $field, $string_to_search)
@@ -197,9 +197,9 @@ function array_search_multiarray_strpos($array, $field, $string_to_search)
 
 /**
  * [partial_search_array Busca si existe parte de un string en un array]
- * @param  [type] $haystack [description]
- * @param  [type] $needle   [description]
- * @return [type]           [description]
+ * @param $haystack
+ * @param $needle
+ * @return bool [type]           [description]
  */
 
 function partial_search_array_special($haystack, $needle)
@@ -232,7 +232,7 @@ function partial_search_array_special($haystack, $needle)
 function get_total_rules_active($status=false)
     {
     global $connect;
-    $SQL = "SELECT count(*) as TOTAL FROM `block_queue` ";
+    $SQL = "SELECT count(*) as TOTAL FROM suricata2ips.block_queue ";
     if (is_numeric($status)) $SQL.=" WHERE que_processed='".$status."' ;";
     // echo $SQL;
     if (!$result = $connect->query($SQL))
@@ -251,7 +251,7 @@ function get_total_rules_active($status=false)
 function get_rules2block_db()
     {
     global $connect;
-    $SQL = "SELECT * FROM sigs_to_block order by sig_name ;";
+    $SQL = "SELECT * FROM suricata2ips.sigs_to_block order by sig_name ;";
     if (!$result = $connect->query($SQL))
         {
         die('There was an error running the query [' . $connect->error . ']');
@@ -265,7 +265,7 @@ function get_rules2block_db()
 
 /**
  * [check_connect_router_API check API connection ]
- * @return [type] [description]
+ * @return string [type] [description]
  */
 
 function check_connect_router_API()
@@ -281,8 +281,8 @@ function check_connect_router_API()
 
 /**
  * [check_service_running check service running]
- * @param  string $service [description]
- * @return [type]          [description]
+ * @param string $service [description]
+ * @return string [type]          [description]
  */
 
 function check_service_running($service = "ids")
@@ -316,7 +316,7 @@ function obtiene_server_status()
 
     if (false === ($str = @file("/proc/meminfo"))) return false;
     $str = implode("", $str);
-    preg_match_all("/MemTotal\s{0,}\:+\s{0,}([\d\.]+).+?MemFree\s{0,}\:+\s{0,}([\d\.]+).+?Cached\s{0,}\:+\s{0,}([\d\.]+).+?SwapTotal\s{0,}\:+\s{0,}([\d\.]+).+?SwapFree\s{0,}\:+\s{0,}([\d\.]+)/s", $str, $buf);
+    preg_match_all("/MemTotal\s*:+\s*([\d.]+).+?MemFree\s*:+\s*([\d.]+).+?Cached\s*:+\s*([\d.]+).+?SwapTotal\s*:+\s*([\d.]+).+?SwapFree\s*:+\s*([\d.]+)/s", $str, $buf);
     $res['memTotal'] = round($buf[1][0], 2);
     $res['memFree'] = round($buf[2][0], 2);
     $res['memCached'] = round($buf[3][0], 2);
@@ -417,13 +417,12 @@ function format_fecha($time)
 function get_server_uptime()
     {
     $exec_uptime = preg_split("/[\s]+/", trim(shell_exec('uptime')));
-    $uptime = $exec_uptime[2] . ' Days';
-    return $uptime;
+        return $exec_uptime[2] . ' Days';
     }
 
 /**
  * [is_IPv4_IPv6 chequea si es un ipv4 o ipv6]
- * @param  [type]  $ip [description]
+ * @param null $ip
  * @return boolean     [description]
  */
 
@@ -449,8 +448,8 @@ function is_IPv4_IPv6($ip = NULL)
 
 /**
  * [check_ip_in_whilelist check if ip is in whilelist]
- * @param  [type] $ip [description]
- * @return [type]     [description]
+ * @param null $ip
+ * @return bool [type]     [description]
  */
 
 function check_ip_in_whilelist($ip = NULL)
@@ -491,7 +490,7 @@ function ip_in_range($ip, $range)
 /**
  * [json_object_to_html show json on html]
  * @param  [type] $json_object_string [description]
- * @return [type]                     [description]
+ * @return mixed|string [type]                     [description]
  */
 
 function json_object_to_html($json_object_string)
@@ -522,9 +521,10 @@ function json_object_to_html($json_object_string)
 
     return $result;
     }
+
 /**
  * [show_credits credits]
- * @return [type] [description]
+ * @return string [type] [description]
  */
 function show_credits()
     {

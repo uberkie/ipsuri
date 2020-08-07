@@ -34,7 +34,7 @@ mysql_con();
 
 while ( file_exists( $cfg[PID_app_file] ) ) {
     // Borra los bloqueos procesados que tenga como fecha la hora de agregado mas el timeout para eliminarlo y que se vuelva a agregar luego 
-    $SQL = "DELETE FROM block_queue WHERE  que_processed=1 AND (que_added + INTERVAL que_timeout HOUR_SECOND) <= NOW()  ;";
+    $SQL = "DELETE FROM suricata2ips.block_queue WHERE  que_processed=1 AND (que_added + INTERVAL que_timeout HOUR_SECOND) <= NOW()  ;";
     if ( !$result = $connect->query( $SQL ) ) {
         die( 'There was an error running the query [' . $connect->error . ']' );
     } //!$result = $connect->query( $SQL )

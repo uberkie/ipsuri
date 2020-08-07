@@ -1,4 +1,4 @@
-cd /var/www/html/suricata2mikrotik/
+cd /var/www/so/suricata2mikrotik/
 php bin/daemon_ips_hunter.php &
 sleep 1;
 php bin/daemon_ips_process.php &

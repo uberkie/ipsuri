@@ -61,7 +61,7 @@ while (file_exists($cfg['PID_app_file']))
     mysql_con();
   }
 
-  $SQL = "SELECT *,inet_ntoa(que_ip_adr) as ip FROM block_queue WHERE que_processed = 0 GROUP BY que_ip_adr LIMIT 10;";
+  $SQL = "SELECT *,inet_ntoa(que_ip_adr) as ip FROM suricata2ips.block_queue WHERE que_processed = 0 GROUP BY que_ip_adr LIMIT 10;";
   if (!$result = $connect->query($SQL))
   {
     die('There was an error running the query [' . $connect->error . ']');
@@ -177,7 +177,7 @@ while (file_exists($cfg['PID_app_file']))
     // $SQL2 = "UPDATE block_queue set que_processed = 1 WHERE que_id = " . $row[ 'que_id' ] . ";";
     // actualizo todos los que tengan el mismo ip
 
-    $SQL2 = "UPDATE block_queue set que_processed = 1 WHERE que_ip_adr = " . ip2long($row['ip']) . ";";
+    $SQL2 = "UPDATE suricata2ips.block_queue set que_processed = 1 WHERE que_ip_adr = " . ip2long($row['ip']) . ";";
     if (!$result2 = $connect->query($SQL2))
     {
       _log('There was an error running the query [' . $connect->error . ']');
