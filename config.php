@@ -27,7 +27,7 @@ define('VERSION', '1.1');
 // header( 'Content-Type: text/plain' );
 $cfg['db_user_name']    = "aj";
 /* Database username */
-$cfg['db_password']     = "840Bi@481";
+$cfg['db_password']     = "userpassword";
 /* Database password */
 $cfg['db_database']     = "suricata2ips";
 $cfg['db_server']       = "localhost";
@@ -58,12 +58,12 @@ $cfg[ 'whitelist' ] = array(
 $router['restart_conn_time'] = 5;
 
  $router['conn']="API"; //API o SSH
-$router['ip']="10.77.44.1"; //IP Router
+$router['ip']="192.168.1.11"; //IP Router
 
 //$router['conn'] = "SSH"; //API o SSH
 //$router['ip']   = "172.16.28.200"; //IP Router
 $router['user'] = "Support"; // user login
-$router['pass'] = "Stiaan123";  //pass
+$router['pass'] = "pass";  //pass
 $router['port'] = "8729";  //port ssh
 
 $router['address_list_block'] = "Blocked";  //Address list to add blocked IP
